@@ -1,0 +1,37 @@
+name: Create release
+
+on:
+  push:
+    tags:
+      - "*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v4
+
+      - name: Setup Deno
+        # uses: denoland/setup-deno@v1
+        uses: denoland/setup-deno@61fe2df320078202e33d7d5ad347e7dcfa0e8f31  # v1.1.2
+        with:
+          deno-version: v1.x
+          
+      - name: Build resource pack
+        run: deno task start
+
+      - name: Archive output
+        run: cp LICENSE.md output/LICENSE.md && cd output && zip -r ../Oraxen.zip *
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: Oraxen.zip
+          generate_release_notes: true
+          make_latest: "true"
