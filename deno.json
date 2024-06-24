@@ -1,0 +1,9 @@
+{
+  "tasks": {
+    "start": "deno run --allow-read=. --allow-write=. --allow-net=emoji.serenityos.net index.ts"
+  },
+  "imports": {
+    "@std/yaml": "jsr:@std/yaml@^0.224.2",
+    "@zip-js/zip-js": "jsr:@zip-js/zip-js@^2.7.45"
+  }
+}
